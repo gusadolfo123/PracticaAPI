@@ -1,0 +1,12 @@
+﻿
+Instalar Nugets
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.Design
+AutoMapper
+
+Genera Modelos a partir de la base de datos
+Scaffold-DbContext "Server=.;Database=StoreDB;Trusted_Connection=True;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Luego Crear Carpeta DTOs en la cual iran las mismas entidades de Models 
+
