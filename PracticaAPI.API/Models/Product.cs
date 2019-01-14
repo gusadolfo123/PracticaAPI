@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace PracticaAPI.API.Models
 {
-    public partial class ProductDTO
+    public partial class Product
     {
-        public ProductDTO()
+        public Product()
         {
-            OrderDetail = new HashSet<OrderDetailDTO>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal UnitPrice { get; set; }
 
-        public virtual ICollection<OrderDetailDTO> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

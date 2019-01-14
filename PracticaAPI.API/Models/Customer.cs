@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace PracticaAPI.API.Models
 {
-    public partial class CustomerDTO
+    public partial class Customer
     {
-        public CustomerDTO()
+        public Customer()
         {
-            CustomerOrder = new HashSet<CustomerOrder>();
+            CustomerOrders = new HashSet<CustomerOrder>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace PracticaAPI.API.Models
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<CustomerOrder> CustomerOrder { get; set; }
+        public virtual ICollection<CustomerOrder> CustomerOrders { get; set; }
     }
 }

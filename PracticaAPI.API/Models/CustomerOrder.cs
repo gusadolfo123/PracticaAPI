@@ -7,7 +7,7 @@ namespace PracticaAPI.API.Models
     {
         public CustomerOrder()
         {
-            OrderDetail = new HashSet<OrderDetailDTO>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
@@ -16,8 +16,8 @@ namespace PracticaAPI.API.Models
         public int OrderStatusId { get; set; }
         public decimal Amount { get; set; }
 
-        public virtual CustomerDTO Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
-        public virtual ICollection<OrderDetailDTO> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

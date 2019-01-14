@@ -11,6 +11,6 @@ namespace PracticaAPI.API.DTOs
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public List<CustomerOrderDTO> CustomerOrder { get; set; }
+        public List<CustomerOrderDTO> CustomerOrders { get; set; }
     }
 }

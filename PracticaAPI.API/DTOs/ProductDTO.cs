@@ -9,6 +9,6 @@ namespace PracticaAPI.API.DTOs
         public string Name { get; set; }
         public decimal UnitPrice { get; set; }
 
-        public virtual List<OrderDetailDTO> OrderDetail { get; set; }
+        public virtual List<OrderDetailDTO> OrderDetails { get; set; }
     }
 }

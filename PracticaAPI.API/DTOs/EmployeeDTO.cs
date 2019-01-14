@@ -3,7 +3,7 @@ using System.Collections.Generic;
  
 namespace PracticaAPI.API.DTOs
 {
-    public class Employee
+    public class EmployeeDTO 
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

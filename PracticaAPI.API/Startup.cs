@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,12 +13,15 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using PracticaAPI.API.DTOs;
+    using PracticaAPI.API.Models;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AutoMapperConfiguration.Configure(); 
         }
 
         public IConfiguration Configuration { get; }
@@ -25,7 +29,13 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // se configura de manera que cuando haya referencia circular el sistema no envie error
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            // configuracion cadena de conexion
+            services.AddDbContext<StoreDBContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("StoreDBContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

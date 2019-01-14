@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PracticaAPI.API.Models
 {
-    public partial class OrderDetailDTO
+    public partial class OrderDetail
     {
         public int CustomerOrderId { get; set; }
         public int ProductId { get; set; }
@@ -11,6 +11,6 @@ namespace PracticaAPI.API.Models
         public decimal Amount { get; set; }
 
         public virtual CustomerOrder CustomerOrder { get; set; }
-        public virtual ProductDTO Product { get; set; }
+        public virtual Product Product { get; set; } 
     }
 }

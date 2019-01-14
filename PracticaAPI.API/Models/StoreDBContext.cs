@@ -15,12 +15,12 @@
         {
         }
 
-        public virtual DbSet<CustomerDTO> Customer { get; set; }
-        public virtual DbSet<CustomerOrder> CustomerOrder { get; set; }
-        public virtual DbSet<Employee> Employee { get; set; }
-        public virtual DbSet<OrderDetailDTO> OrderDetail { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerOrder> CustomerOrders { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderStatus> OrderStatus { get; set; }
-        public virtual DbSet<ProductDTO> Product { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,7 +31,7 @@
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-            modelBuilder.Entity<CustomerDTO>(entity =>
+            modelBuilder.Entity<Customer>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -69,13 +69,13 @@
                 entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatusID");
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.CustomerOrder)
+                    .WithMany(p => p.CustomerOrders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Customer_CustomerOrder");
 
                 entity.HasOne(d => d.OrderStatus)
-                    .WithMany(p => p.CustomerOrder)
+                    .WithMany(p => p.CustomerOrders)
                     .HasForeignKey(d => d.OrderStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderStatus_CustomerOrder");
@@ -106,7 +106,7 @@
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<OrderDetailDTO>(entity =>
+            modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.CustomerOrderId, e.ProductId });
 
@@ -117,13 +117,13 @@
                 entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.CustomerOrder)
-                    .WithMany(p => p.OrderDetail)
+                    .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.CustomerOrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CustomerOrder_OrderDetail");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.OrderDetail)
+                    .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_OrderDetail");
@@ -139,7 +139,7 @@
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<ProductDTO>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
