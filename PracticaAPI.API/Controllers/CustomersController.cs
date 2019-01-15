@@ -11,9 +11,9 @@ using PracticaAPI.API.Models;
 
 namespace PracticaAPI.API.Controllers
 {
-    [ApiController]
+    
     [Route("api/[controller]")]
-    [Produces("applications/json")]
+    [ApiController]
     public class CustomersController : ControllerBase
     {
         private readonly StoreDBContext _context;
@@ -23,26 +23,34 @@ namespace PracticaAPI.API.Controllers
             _context = context;
         }
 
-        // GET: api/Customers
-        [HttpGet]
-        public IEnumerable<CustomerDTO> GetCustomers([FromRoute] int pag, [FromRoute] int tam)
-        {
-            var model = _context.Customers.Skip(tam * pag - 1).Take(tam).OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
-            var dto = Mapper.Map<IEnumerable<CustomerDTO>>(model);
-            return dto;
-        }
+        // GET: api/Customers/5/5
+        //[HttpGet["Page/{pag}/{tam}"]]
+        //public IEnumerable<CustomerDTO> GetCustomers([FromRoute] int pag, [FromRoute] int tam)
+        //{
+        //    var model = _context.Customers.Skip(tam * pag - 1).Take(tam).OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
+        //    var dto = Mapper.Map<IEnumerable<CustomerDTO>>(model);
+        //    return dto;
+        //}
+        
+            //[HttpGet("")]
+        //public IEnumerable<CustomerDTO> GetCustomer()
+        //{
+        //    var model = _context.Customers.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
+        //    var dto = Mapper.Map<IEnumerable<CustomerDTO>>(model);
+        //    return dto;
+        //}
 
-        [HttpGet("")]
-        public IEnumerable<CustomerDTO> GetCustomer()
+        [HttpGet]
+        public IEnumerable<CustomerDTO> GetCustomers()
         {
             var model = _context.Customers.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var dto = Mapper.Map<IEnumerable<CustomerDTO>>(model);
             return dto;
-        }
+        }              
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<IActionResult> GetCustomer([FromRoute] int id)
         {
 
             if (!ModelState.IsValid)
@@ -62,12 +70,12 @@ namespace PracticaAPI.API.Controllers
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer([FromBody] int id, [FromBody] CustomerDTO customer)
+        public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] CustomerDTO customer)
         {
 
             if (!ModelState.IsValid)
             {
-                return Conflict(ModelState);
+                return BadRequest(ModelState);
             }
 
             if (id != customer.Id)
@@ -83,7 +91,7 @@ namespace PracticaAPI.API.Controllers
 
                 if (updateResult == 0)
                 {
-                    return Conflict(new { Message = "No se pudo modificar el modelo enviado" });
+                    return BadRequest(new { Message = "No se pudo modificar el modelo enviado" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)
@@ -107,7 +115,7 @@ namespace PracticaAPI.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var map = Mapper.Map<Customer>(customer);
@@ -121,7 +129,7 @@ namespace PracticaAPI.API.Controllers
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteCustomer([FromBody] int id)
+        public async Task<IActionResult> DeleteCustomer([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -146,14 +154,14 @@ namespace PracticaAPI.API.Controllers
             var username = (string)credentials["username"];
             var password = (string)credentials["password"];
 
-            var employee = await _context.Employees.SingleOrDefaultAsync(m => m.UserName == username && m.Password == password);
+            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.UserName == username && m.Password == password);
 
-            if (employee == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return Ok(Mapper.Map<EmployeeDTO>(employee));
+            return Ok(Mapper.Map<CustomerDTO>(customer));
         }
 
 
