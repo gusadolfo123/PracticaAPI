@@ -23,9 +23,9 @@ namespace PracticaAPI.API.Controllers
 
         // GET: api/OrderDetails
         [HttpGet]
-        public IEnumerable<OrderDetail> GetOrderDetail()
+        public IEnumerable<OrderDetailDTO> GetOrderDetail()
         {
-            return _context.OrderDetails;
+            return Mapper.Map<IEnumerable<OrderDetailDTO>>(_context.OrderDetails.OrderBy(x => x.Amount));
         }
 
         // GET: api/OrderDetails/Order/5
